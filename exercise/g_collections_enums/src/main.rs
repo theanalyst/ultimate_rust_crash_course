@@ -48,13 +48,13 @@ fn main() {
     for coord in &arrow_coords {
         coord.print_description();
         let value = coord.distance_from_center();
-        if value < 1.0 {
-            shots.push(Shot::Bullseye)
-        } else if value > 5.0 {
-            shots.push(Shot::Miss)
-        } else {
-           shots.push(Shot::Hit(value))
-        }
+        let shot = match coord.distance_from_center() {
+            x if x < 1.0 => Shot::Bullseye,
+            x if x < 5.0 => Shot::Hit(x),
+            _ => Shot::Miss
+
+        };
+        shots.push(shot);
     }
 
     let mut total = 0;
